@@ -1,0 +1,98 @@
+# -----------------------------------------------------------------------
+# .gitignore  -  Rank_Pref_Replication
+# -----------------------------------------------------------------------
+# Committed:   source/, data/, output/, temp/, docs/, run_all.py, README.md
+# Languages:   R (.R), Python (.py), Jupyter (.ipynb)
+# -----------------------------------------------------------------------
+
+# Project-local R library (used to shim newer rlang past locked DLLs)
+.Rlib/
+
+# Raw data – large/sensitive files live on Dropbox/Drive, not in git
+# data/0_raw/<large_file>.csv
+# data/1_derived/<large_file>.csv
+
+# Quarto build artifacts (compiled PDFs are committed; build cache is not)
+*_files/
+.quarto/
+
+# R artifacts
+.Rhistory
+.RData
+.Rproj.user/
+renv/library/
+renv/local/
+renv/staging/
+
+# Jupyter artifacts
+**/.ipynb_checkpoints/
+
+# Log files
+*.log
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+*.bak
+*~
+.vscode/
+
+# Python / virtual environment
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+# -----------------------------------------------------------------------
+# Large files: GitHub's hard limit is 100 MB. .gitignore cannot filter by
+# size, so common large-file types are listed here.
+# -----------------------------------------------------------------------
+
+# Large data formats
+*.dta
+*.parquet
+*.feather
+*.arrow
+*.pkl
+*.pickle
+*.h5
+*.hdf5
+*.nc
+*.mat
+*.sas7bdat
+*.db
+*.sqlite
+*.sqlite3
+
+# Archives
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.tar.bz2
+*.7z
+*.rar
+*.gz
+*.bz2
+
+# Large media
+*.mp4
+*.avi
+*.mov
+*.mkv
+*.wmv
+*.mp3
+*.wav
+*.flac
+
+# Large images / GIS
+*.tif
+*.tiff
+*.geotiff
+*.shp
+*.shx
+*.dbf
+*.gdb/
+
+# internal/private material lives in a separate private repo
+archive/

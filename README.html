@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.32">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>readme</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="README_files/libs/clipboard/clipboard.min.js"></script>
+<script src="README_files/libs/quarto-html/quarto.js" type="module"></script>
+<script src="README_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="README_files/libs/quarto-html/popper.min.js"></script>
+<script src="README_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="README_files/libs/quarto-html/anchor.min.js"></script>
+<link href="README_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="README_files/libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="README_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="README_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="README_files/libs/bootstrap/bootstrap-bb462d781dde1847d9e3ccf7736099dd.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent quarto-light">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+
+
+
+<section id="code-for-shechter-hardisty-2020-preferences-for-rank-in-competition" class="level1">
+<h1>Code for Shechter &amp; Hardisty (2020): Preferences for Rank in Competition</h1>
+<p>A complete, end-to-end replication of Shechter &amp; Hardisty (2020), <em>Preferences for rank in competition: Is first-place seeking stronger than last-place aversion?</em></p>
+<p>Replication package prepared by <strong>William Clinton Co</strong>. The study itself is by Shechter &amp; Hardisty (2020); this repository contains only the replication code and de-identified data (see <a href="#citation">Citation</a>).</p>
+<hr>
+<section id="overview" class="level2">
+<h2 class="anchored" data-anchor-id="overview">Overview</h2>
+<p>This is an academic replication package. It re-runs the original analysis from raw data through to the published tables and figures: it ingests the authors’ raw competition data, reproduces the three studies’ cleaned analysis samples (1960 / 1001 / 423 participants), and generates the paper’s tables and figures.</p>
+<hr>
+</section>
+<section id="what-this-package-does-and-how-to-run-it" class="level2">
+<h2 class="anchored" data-anchor-id="what-this-package-does-and-how-to-run-it">What this package does and how to run it</h2>
+<p>The project uses a standard <code>source/</code> / <code>data/</code> / <code>output/</code> layout that mirrors three pipeline stages: <code>0_raw</code>, <code>1_derived</code>, and <code>2_analysis</code>. Every script runs from the project root, and each script finds the root itself by walking up to <code>run_all.py</code>.</p>
+<section id="stage-0-ingest" class="level3">
+<h3 class="anchored" data-anchor-id="stage-0-ingest">Stage 0: Ingest</h3>
+<p><code>source/0_raw/ingest_competition_csvs/ingest_competition_csvs.ipynb</code> reads the six raw competition CSVs (<code>exp{58,72,73}_{wide,long}.csv</code>) and stacks the three studies into union-schema tables <code>wide_all.csv</code> and <code>long_all.csv</code>, adding <code>study</code> and <code>n_ranks</code> columns. No filtering happens here; because schemas differ across studies, columns missing from a given study become blank (NaN).</p>
+</section>
+<section id="stage-1-clean-and-derive" class="level3">
+<h3 class="anchored" data-anchor-id="stage-1-clean-and-derive">Stage 1: Clean and derive</h3>
+<p><code>source/1_derived/clean_competition/clean_competition.ipynb</code> produces the analysis-ready data through four ordered steps that land on 1960 / 1001 / 423:</p>
+<ol type="1">
+<li><strong>Collection-window filter.</strong> Keep only rows whose <code>dateadded</code> falls inside each study’s real data-collection window. Rows before the window are test entries; rows after it are post-collection stimulus checks with placeholder demographics (such as <code>age = 1</code>). The filter uses collection date alone, never demographics.</li>
+<li><strong>IP deduplication (Studies 1 and 2 only; Study 3 is a lab sample and is exempt).</strong> Per-IP rules keep the chronologically first respondent(s) per IP address, capped per study.</li>
+<li><strong>Complete-case drop.</strong> Remove any row with a blank in a shown response cell.</li>
+<li><strong>Order.</strong> Deduplication is applied before the complete-case drop.</li>
+</ol>
+<p>It then converts each <code>rank{N}indif</code> indifference probability into a utility U(N) (anchors: U(1st) = 1, U(last) = 0) and computes the four per-participant boolean hypothesis indicators (H1, H2a, H2b, H4). Outputs: <code>wide_clean.csv</code> (one row per participant; 3384 rows × 55 columns) and <code>long_utils.csv</code> (one row per participant-rank; 20727 rows × 5 columns).</p>
+</section>
+<section id="stage-2-tables-and-figures" class="level3">
+<h3 class="anchored" data-anchor-id="stage-2-tables-and-figures">Stage 2: Tables and figures</h3>
+<p>Seven scripts generate the published exhibits:</p>
+<ul>
+<li><code>table1_descriptives.ipynb</code> → Table 1 (per-study N, % male, mean age, competitiveness by gender).</li>
+<li><code>som1_joint_distribution.ipynb</code> → Table SOM.1 (the 16-cell joint distribution of the four indicators; roughly a quarter of each sample satisfies all four at once, far above the 6.25% chance rate).</li>
+<li><code>table2_3_proportions_magnitudes.R</code> → Table 2 / SOM.2 (% of participants TRUE on H1 / H2a / H2b / H4, with Wilson 95% confidence intervals) and Table 3 / SOM.3 (mean within-subject utility differences U(2) − U(last−1) and the drop-difference, with paired t-tests and Cohen’s d).</li>
+<li><code>figure1_utility_by_rank.R</code> → Figure 1 (mean utility by rank, Studies 1 and 2, with per-participant “spaghetti” lines and a 95% confidence interval).</li>
+<li><code>figure_som1_study3_bar.R</code> → Figure SOM.1 (Study 3 utility-by-rank bar chart).</li>
+<li><code>figure2_cpt_reanalysis.R</code> → Figure 2 (EUT versus CPT utility curves for Study 1).</li>
+<li><code>som_boxplots.R</code> → Figures SOM.2 / SOM.3 / SOM.4 (per-study utility boxplots).</li>
+</ul>
+<p>Shared helpers live in <code>source/lib/</code>: <code>setup_libs.R</code> and <code>theme_healy.R</code> (a colorblind-safe ggplot2 theme following Healy’s <em>Data Visualization</em>).</p>
+</section>
+<section id="running-the-pipeline" class="level3">
+<h3 class="anchored" data-anchor-id="running-the-pipeline">Running the pipeline</h3>
+<p>From the project root:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> run_all.py            <span class="co"># run the whole pipeline</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> run_all.py <span class="at">--stage</span> 0  <span class="co"># ingest only</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> run_all.py <span class="at">--stage</span> 1  <span class="co"># clean only</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> run_all.py <span class="at">--stage</span> 2  <span class="co"># tables and figures only</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> run_all.py <span class="at">--dry-run</span>  <span class="co"># print commands without executing</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><code>run_all.py</code> dispatches by file extension (<code>.R</code> → <code>Rscript --vanilla</code>; <code>.ipynb</code> → <code>jupyter nbconvert --to notebook --execute --inplace</code>), fails fast on the first error, and writes a date-stamped master log to <code>output/run_all_&lt;YYYYMMDD_HHMMSS&gt;.log</code>.</p>
+</section>
+<section id="requirements" class="level3">
+<h3 class="anchored" data-anchor-id="requirements">Requirements</h3>
+<ul>
+<li><strong>Python 3.11+</strong> with <code>numpy</code>, <code>pandas</code>, and <code>tabulate</code>. Install with <code>pip install -r requirements.txt</code>.</li>
+<li><strong>R 4.x</strong> with <code>dplyr</code>, <code>readr</code>, <code>tidyr</code>, <code>ggplot2</code>, <code>scales</code>, <code>RColorBrewer</code>, <code>Hmisc</code>, and <code>knitr</code>. Install with <code>source("install.R")</code> (a local library lives in <code>.Rlib/</code>).</li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="repository-structure" class="level2">
+<h2 class="anchored" data-anchor-id="repository-structure">Repository structure</h2>
+<pre><code>Rank_Pref_Replication/
+├── source/             All pipeline code (.R, .ipynb)
+│   ├── 0_raw/          Ingest raw competition CSVs
+│   ├── 1_derived/      Clean, deduplicate, derive utilities and indicators
+│   ├── 2_analysis/     Tables (1, 2/SOM.2, 3/SOM.3, SOM.1) and figures (1, 2, SOM.1-4)
+│   └── lib/            Shared helpers (setup_libs.R, theme_healy.R)
+├── data/
+│   ├── 0_raw/competition/        Raw exports (read-only): exp{58,72,73}_{wide,long}.csv, *_all.csv
+│   └── 1_derived/competition/    Cleaned: wide_clean.csv, long_utils.csv
+├── output/             Generated tables, figures, and run logs
+│   ├── 1_derived/
+│   ├── 2_analysis/{tables,figures}/
+│   └── 3_verify/
+├── docs/
+│   └── codebook.md     Variable documentation for the cleaned data
+├── run_all.py          Master pipeline script (stage dispatch by file extension)
+├── install.R           R package installer
+└── requirements.txt    Python packages</code></pre>
+<p>Raw data in <code>data/0_raw/</code> is read-only and should never be hand-edited. Everything in <code>data/1_derived/</code> and <code>output/</code> is generated by code.</p>
+<hr>
+</section>
+<section id="discrepancies-results-and-fixes" class="level2">
+<h2 class="anchored" data-anchor-id="discrepancies-results-and-fixes">Discrepancies, results, and fixes</h2>
+<p>While reconciling the cleaned samples and Table 2 against the published paper, the replication surfaced three points where the original cleaning recipe was ambiguous or internally inconsistent. Each was stress-tested by replacing the ambiguous rule with a single consistent rule, one at a time and then all together.</p>
+<p><strong>Bottom line up front:</strong> these choices move the exact sample sizes by only a handful of participants. Under every variant, each hypothesis stays supported at essentially the same proportion (within about 0.3 percentage points), every Table 3 magnitude and Cohen’s d is unchanged to three decimals, and every paired t-test stays p &lt; .001. What the discrepancies control is the exact-N reproduction of the published samples, not the scientific findings.</p>
+<section id="d1-per-study-ip-deduplication-cap-1-versus-2" class="level3">
+<h3 class="anchored" data-anchor-id="d1-per-study-ip-deduplication-cap-1-versus-2">D1: Per-study IP-deduplication cap (1 versus 2)</h3>
+<p>To remove duplicate respondents, the pipeline deduplicates by IP address. Study 1 keeps only <strong>1</strong> respondent per IP, but Study 2 keeps <strong>2</strong> (allowing for two people who share one household IP). This 1-versus-2 split is undocumented; the authors’ written rule only says “keep the first respondent per IP,” which implies a cap of 1 everywhere.</p>
+<ul>
+<li><strong>What we did and found:</strong> Applying one uniform cap to both studies fails to reproduce both published Ns at once. A cap of 1 for both costs Study 2 eleven participants (990 instead of 1001); a cap of 2 for both adds 32 to Study 1 (1992 instead of 1960). Only the asymmetric 1 / 2 split hits 1960 and 1001 simultaneously. Either way, every proportion moves at most 0.3 percentage points and no magnitude or Cohen’s d changes.</li>
+<li><strong>Open question for the authors:</strong> Was Study 2’s cap of 2 intentional?</li>
+</ul>
+</section>
+<section id="d2-whole-ip-drop-for-one-inconsistent-cluster" class="level3">
+<h3 class="anchored" data-anchor-id="d2-whole-ip-drop-for-one-inconsistent-cluster">D2: Whole-IP drop for one inconsistent cluster</h3>
+<p>Exactly <strong>one</strong> IP in the entire dataset (Study 1, participant IDs 31715 / 32605) is dropped entirely rather than keeping its first attempt. The same person did the identical task twice (same experimental cell), and the first attempt was suspiciously fast (<code>numsecs = 56</code>). The pipeline encodes this as a “same person, same cell, drop the whole IP” rule, but with only one example it is indistinguishable from a simple “too fast / abandoned-then-redone” data-quality drop, and a global speed threshold cannot exist (the authors kept responses as fast as 47 seconds).</p>
+<ul>
+<li><strong>What we did and found:</strong> Removing this special branch and treating the cluster like every other (keep the chronologically first attempt, capped) moves Study 1 from 1960 to <strong>1961</strong> (a change of +1, since it retains the 56-second attempt). No other study is affected, and no proportion or magnitude changes. The special case exists only to land on exactly 1960.</li>
+</ul>
+</section>
+<section id="d3-study-2-h1-strict-versus-relaxed-definition" class="level3">
+<h3 class="anchored" data-anchor-id="d3-study-2-h1-strict-versus-relaxed-definition">D3: Study 2 H1, strict versus relaxed definition</h3>
+<p>This is a discrepancy in the paper, not in the pipeline. The pipeline applies the strict monotone H1 definition (full non-increasing utility plus a strict top-to-bottom drop) uniformly to all three studies, giving H1 = 71.9% / 69.1% / 58.2%. The paper reports 72% / 86% / 58%. The strict rule matches Studies 1 and 3 exactly, but gives 69.1% for Study 2 versus the paper’s 86%.</p>
+<ul>
+<li><strong>What we did and found:</strong> No single uniform definition reproduces all three published H1 values. The strict definition matches Studies 1 and 3 and misses Study 2; the relaxed definition (only U(2) &gt; U(last−1)) matches Study 2 (85.7%) but badly overshoots Study 1 (by about +15 pp) and Study 3 (by about +33 pp). The published 72 / 86 / 58 triple is only reconcilable if the authors used the strict definition for Studies 1 and 3 but the relaxed one for Study 2 alone, an internal inconsistency in the published table. Crucially, H1 stays strongly supported under either definition (far above the roughly 6% chance rate), so the substantive claim is unaffected.</li>
+</ul>
+</section>
+<section id="all-three-fixes-together" class="level3">
+<h3 class="anchored" data-anchor-id="all-three-fixes-together">All three fixes together</h3>
+<p>Applying cap = 1 for both studies, no whole-IP drop, and the strict H1 everywhere shifts the samples to 1961 / 990 / 423 (from 1960 / 1001 / 423). All Table 3 magnitudes and Cohen’s d values are unchanged to three decimals, and all t-tests stay p &lt; .001. The mean utility curves are visually indistinguishable from baseline. The headline result, first-place seeking stronger than last-place aversion (a steep rank-1-to-2 drop versus a shallow drop into last place; H4 ≈ 68%, drop-difference ≈ 0.21 to 0.23, d ≈ 0.54 to 0.60, p &lt; .001), is intact.</p>
+<hr>
+</section>
+</section>
+<section id="data-and-provenance" class="level2">
+<h2 class="anchored" data-anchor-id="data-and-provenance">Data and provenance</h2>
+<p>The participant data in this package originates from the <strong>original authors’</strong> experiments (database exports for experiments exp58, exp72, and exp73).</p>
+<section id="privacy-and-de-identification" class="level3">
+<h3 class="anchored" data-anchor-id="privacy-and-de-identification">Privacy and de-identification</h3>
+<p>The raw exports included an <code>ip</code> column that the original cleaning used <strong>only</strong> to de-duplicate repeat respondents (Studies 1 and 2; Study 3, a lab sample, is exempt). No analysis, table, or figure uses the IP value itself. To protect participant privacy, every real IP address in this repository has been replaced with an <strong>opaque, consistent identifier</strong> through a one-to-one (bijective) mapping: the same original address always maps to the same id (for example <code>ip_00001</code>), and different addresses map to different ids. Because the mapping is one-to-one, the de-duplication grouping is preserved exactly, so the cleaning pipeline still reproduces the published samples (1960 / 1001 / 423) and every hypothesis proportion identically, while no real IP address is ever published. This was verified by re-running the full pipeline on the de-identified data.</p>
+</section>
+<section id="redistribution" class="level3">
+<h3 class="anchored" data-anchor-id="redistribution">Redistribution</h3>
+<p>The redistribution terms for the participant data should be confirmed with the original authors before any wider release.</p>
+<hr>
+</section>
+</section>
+<section id="citation" class="level2">
+<h2 class="anchored" data-anchor-id="citation">Citation</h2>
+<blockquote class="blockquote">
+<p>Shechter, Steven M., and David J. Hardisty (2020). “Preferences for rank in competition: Is first-place seeking stronger than last-place aversion?” <em>Judgment and Decision Making</em> 15(2):246-253. DOI: <a href="https://doi.org/10.1017/S1930297500007385">10.1017/S1930297500007385</a>.</p>
+</blockquote>
+<p>To cite this package itself, see <code>CITATION.cff</code>.</p>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

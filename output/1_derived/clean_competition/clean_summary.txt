@@ -1,0 +1,28 @@
+After clean: 3384 participants
+By study:
+study
+exp72    1960
+exp73    1001
+exp58     423
+
+Indicator prevalence (%):
+  H1:
+study
+exp58    58.2
+exp72    71.9
+exp73    69.1
+  H2a:
+study
+exp58    79.2
+exp72    79.3
+exp73    80.3
+  H2b:
+study
+exp58    67.6
+exp72    72.2
+exp73    68.0
+  H4:
+study
+exp58    70.4
+exp72    68.0
+exp73    68.8

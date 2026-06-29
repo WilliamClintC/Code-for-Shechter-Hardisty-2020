@@ -1,0 +1,13 @@
+# -----------------------------------------------------------------------
+# Python environment  -  Rank_Pref_Replication
+# Python version: 3.11+
+#
+# Install:  py -3.11 -m pip install -r requirements.txt
+# -----------------------------------------------------------------------
+
+# Core data manipulation (ingest, clean, and the analysis notebooks)
+numpy>=1.26
+pandas>=2.0
+
+# Markdown tables (pandas .to_markdown in table1 and som1)
+tabulate>=0.9

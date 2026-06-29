@@ -1,0 +1,24 @@
+cff-version: 1.2.0
+message: "This is a replication package. Please cite the original paper (see references); you may additionally cite this package as below."
+title: "Code for Shechter & Hardisty (2020): Preferences for Rank in Competition"
+abstract: "Replication package (code and de-identified data) reproducing the cleaned samples, tables, and figures of Shechter & Hardisty (2020), Preferences for rank in competition."
+type: software
+authors:
+  - family-names: "Co"
+    given-names: "William Clinton"
+repository-code: "https://github.com/WilliamClintC/Code-for-Shechter-Hardisty-2020"
+references:
+  - type: article
+    title: "Preferences for rank in competition: Is first-place seeking stronger than last-place aversion?"
+    authors:
+      - family-names: "Shechter"
+        given-names: "Steven M."
+      - family-names: "Hardisty"
+        given-names: "David J."
+    journal: "Judgment and Decision Making"
+    year: 2020
+    volume: 15
+    issue: 2
+    start: 246
+    end: 253
+    doi: "10.1017/S1930297500007385"
